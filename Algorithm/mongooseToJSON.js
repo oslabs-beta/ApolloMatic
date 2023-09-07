@@ -10,18 +10,6 @@ const exportModels = {
   "models": [
 ]}
 
-//model 
-// const exportModels = {
-//   "models": [{
-//   "name": "____",
-//   "schema": {
-//     "name": ___,
-//     "age": ____,
-//     etc. 
-//   }
-// }
-// ]}
-
 //iterating through schemas object 
 const convertSchema = () => {
     const collectionNameRegex = /mongoose\.model\s*\(\s*['"]([^'"]+)['"]\s*,/;
@@ -34,7 +22,7 @@ const convertSchema = () => {
           "schema": {
           }
         };
-
+        // console.log("Schemas:", schemas[prop])
         //this is the "tree" for each schema that the user defined in their config file
         const mongoSchemas = schemas[prop].schema.tree;
         //for in loop will iterate through each of the user's schemas, and build out "current schema", that will eventually be pushed into the final exportModels object
@@ -60,7 +48,7 @@ const convertSchema = () => {
             //...the rest of the types when we get to them
           }
         }
-        console.log("currentSchema:", currentSchema)
+        // console.log("currentSchema:", currentSchema)
         // console.log("model tree: ", schemas[prop].schema.tree)
         //push the generated object into the exportModels object
         exportModels.models.push(currentSchema);
@@ -69,9 +57,7 @@ const convertSchema = () => {
     return JSON.stringify(exportModels); 
 }
 
-console.log(convertSchema());
-
-module.exports = { parseFile };
+// console.log(convertSchema());
 
 function convertType(arg){
 
@@ -139,54 +125,56 @@ function parseFile(filePath) {
     }
   }
 
-//this is a function that parses through their file to grab their mongo schema 
-function findMongooseSchema(passedFile){ 
-  //find index of start of mongoose schema
-  const mongooseSchemaIndex = passedFile.search(/mongoose.Schema\s?\(\s?/);
-  // console.log('mongooseSchemaIndex', mongooseSchemaIndex);
-  //mongooseSlice is the code from mongoose.Schema to the end of the file. 
-  const mongooseSlice = passedFile.slice(mongooseSchemaIndex);
-  // console.log("mongooseSlice:", mongooseSlice);
-  //using new index, find the index of the first occuring '{'; openingCurlyBrace grabs the index of the opening curly brace
-  const openingCurlyBrace = mongooseSlice.search('{') + 1;
-  // console.log("curlyBrace:" , openingCurlyBrace);
-  //Write algorithm for matching curly braces so that we know when the schema ends, return the index of last curly brace
-  const closingCurlyBrace = findIndexCloseBrace(mongooseSlice, openingCurlyBrace); 
-  // console.log("closingCurlyBrace:" , closingCurlyBrace);
-  //slice the string to get the entire object; return is used for the Function constructor
-  const slicedMongooseSchema = 'return ' + mongooseSlice.slice(openingCurlyBrace - 1, closingCurlyBrace);
-  // console.log("slicedMongooseSchema:", slicedMongooseSchema);
-  
-  // create a function to return the 'new Function'
-  function createFunction(){
-    return new Function(slicedMongooseSchema);
-  }
-  //create a new variable to hold the new function definition that contains the object
-  const mongooseSchema = createFunction();
-  // console.log('testtt')
-  // console.log('mongooseSchema', JSON.stringify(mongooseSchema()))
-  // console.log('type', typeof mongooseSchema());
-  
-  return mongooseSlice.slice(openingCurlyBrace - 1, closingCurlyBrace);
-}
+module.exports = { convertSchema, convertType }
 
-//this function parses through the sliced segment of the schema file that contains everything after the first curly brace; this function will determine the index of the final closing brace so that we can grab the entire schema object
-function findIndexCloseBrace(sliced, startingIndex){ 
-      //use mongooseSlice for text and openingCurlyBrace for '{' index
-    //iterate through every character
-      //use a stack to keep track of all curly braces, when stack is empty the end of the object has been found
-      let currIndex = startingIndex;
-      const stack = ['{'];
-      while(stack.length > 0){
-        if(sliced[currIndex] === '{'){
-          stack.push('{');
-        } else if(sliced[currIndex] === '}'){
-          stack.pop();
-        }   
-        currIndex++;
-      }
-      return currIndex; 
-}
+// //this is a function that parses through their file to grab their mongo schema 
+// function findMongooseSchema(passedFile){ 
+//   //find index of start of mongoose schema
+//   const mongooseSchemaIndex = passedFile.search(/mongoose.Schema\s?\(\s?/);
+//   // console.log('mongooseSchemaIndex', mongooseSchemaIndex);
+//   //mongooseSlice is the code from mongoose.Schema to the end of the file. 
+//   const mongooseSlice = passedFile.slice(mongooseSchemaIndex);
+//   // console.log("mongooseSlice:", mongooseSlice);
+//   //using new index, find the index of the first occuring '{'; openingCurlyBrace grabs the index of the opening curly brace
+//   const openingCurlyBrace = mongooseSlice.search('{') + 1;
+//   // console.log("curlyBrace:" , openingCurlyBrace);
+//   //Write algorithm for matching curly braces so that we know when the schema ends, return the index of last curly brace
+//   const closingCurlyBrace = findIndexCloseBrace(mongooseSlice, openingCurlyBrace); 
+//   // console.log("closingCurlyBrace:" , closingCurlyBrace);
+//   //slice the string to get the entire object; return is used for the Function constructor
+//   const slicedMongooseSchema = 'return ' + mongooseSlice.slice(openingCurlyBrace - 1, closingCurlyBrace);
+//   // console.log("slicedMongooseSchema:", slicedMongooseSchema);
+  
+//   // create a function to return the 'new Function'
+//   function createFunction(){
+//     return new Function(slicedMongooseSchema);
+//   }
+//   //create a new variable to hold the new function definition that contains the object
+//   const mongooseSchema = createFunction();
+//   // console.log('testtt')
+//   // console.log('mongooseSchema', JSON.stringify(mongooseSchema()))
+//   // console.log('type', typeof mongooseSchema());
+  
+//   return mongooseSlice.slice(openingCurlyBrace - 1, closingCurlyBrace);
+// }
+
+// //this function parses through the sliced segment of the schema file that contains everything after the first curly brace; this function will determine the index of the final closing brace so that we can grab the entire schema object
+// function findIndexCloseBrace(sliced, startingIndex){ 
+//       //use mongooseSlice for text and openingCurlyBrace for '{' index
+//     //iterate through every character
+//       //use a stack to keep track of all curly braces, when stack is empty the end of the object has been found
+//       let currIndex = startingIndex;
+//       const stack = ['{'];
+//       while(stack.length > 0){
+//         if(sliced[currIndex] === '{'){
+//           stack.push('{');
+//         } else if(sliced[currIndex] === '}'){
+//           stack.pop();
+//         }   
+//         currIndex++;
+//       }
+//       return currIndex; 
+// }
 
 //input: mongoose schema in a string format...ex '{...}'
 //output: new object containing all of the k:v pairs. All values will be in string form
