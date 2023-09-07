@@ -10,7 +10,7 @@ const jsonToGraphQLTypes = (jsonObj) => {
     let typeDefs = '';
     let typeInputs = '';
     
-  
+    
     jsonObj.models.forEach((model) => {
         const typeName = model.name;
         let typeDef = `type ${typeName} {\n  id: ID!\n`;
@@ -42,7 +42,7 @@ const jsonToGraphQLTypes = (jsonObj) => {
     typeQuery += '}\n\n';
     typeMutation += '}\n\n';
   
-    console.log(typeInputs);
+    // console.log(typeInputs);
   
     // return `const typeDefs = gql\` \n${typeQuery} ${typeMutation} ${typeDefs}\``;
     return `export const typeDefs = gql\` \n${typeDefs} ${typeInputs} ${typeQuery} ${typeMutation}\``;
@@ -68,7 +68,7 @@ const jsonToGraphQLTypes = (jsonObj) => {
     ]
   };
   
-  console.log(jsonToGraphQLTypes(exampleJSON));
+  // console.log(jsonToGraphQLTypes(exampleJSON));
   
   
   
@@ -87,6 +87,9 @@ const jsonToGraphQLTypes = (jsonObj) => {
     
   }
   
+  module.exports = jsonToGraphQLTypes
+
+
   // Assume the function jsonToGraphQLTypes() returns the GraphQL types in the same format as in the previous examples
   // const types = jsonToGraphQLTypes(exampleJson);
   

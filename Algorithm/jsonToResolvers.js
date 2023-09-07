@@ -26,9 +26,9 @@ const jsonToResolvers = (jsonObj) => {
 
         //for each type name, we need to create an add, update, delete 
 
-        mutationReturnBody += `\n${indentation}${indentation}add${typeName}: async (parent, args, context, info) => {\n${indentation}${indentation}${indentation}const { input } = args;\n${indentation}${indentation}${indentation}try {\n${indentation}${indentation}${indentation}${indentation}const new${typeName} = new ${typeName}({\n${indentation}${indentation}${indentation}${indentation}${indentation}...input\n${indentation}${indentation}${indentation}${indentation}});\n${indentation}${indentation}${indentation}}\n${indentation}${indentation}},`
+        mutationReturnBody += `\n${indentation}${indentation}add${typeName}: async (parent, args, context, info) => {\n${indentation}${indentation}${indentation}const { input } = args;\n${indentation}${indentation}${indentation}try {\n${indentation}${indentation}${indentation}${indentation}const new${typeName} = new ${typeName}({\n${indentation}${indentation}${indentation}${indentation}${indentation}...input\n${indentation}${indentation}${indentation}${indentation}});\n${indentation}${indentation}${indentation}${indentation}return new${typeName};\n${indentation}${indentation}${indentation}} catch (error) { \n${indentation}${indentation}${indentation}${indentation}throw new ApolloError('Error adding a ${typeName}', 'ADD_${typeName.toUpperCase()}_ERROR', { error });\n${indentation}${indentation}${indentation}}\n${indentation}${indentation}},\n${indentation}`
     })
-    return `${queryReturnStatement}${queryReturnBody}${indentation}},\n${mutationReturnStatement}${mutationReturnBody}};`
+    return `${queryReturnStatement}${queryReturnBody}${indentation}},\n${mutationReturnStatement}${mutationReturnBody}},\n};`
 }
 
 const resolvers = {
@@ -45,31 +45,28 @@ const resolvers = {
     },
   };
 
+// const exampleJSON = {
+//     "models": [
+//       {
+//         "name": "User",
+//         "schema": {
+//           "name": "String",
+//           "age": "Float",
+//           "friends": "[User]"
+//         }
+//       },
+//       {
+//         "name": "Post",
+//         "schema": {
+//           "title": "String!",
+//           "content": "String"
+//         }
+//       }
+//     ]
+//   };
 
 
-
-
-const exampleJSON = {
-    "models": [
-      {
-        "name": "User",
-        "schema": {
-          "name": "String",
-          "age": "Float",
-          "friends": "[User]"
-        }
-      },
-      {
-        "name": "Post",
-        "schema": {
-          "title": "String!",
-          "content": "String"
-        }
-      }
-    ]
-  };
-
-console.log(jsonToResolvers(exampleJSON));
+module.exports = jsonToResolvers
 
 
 
