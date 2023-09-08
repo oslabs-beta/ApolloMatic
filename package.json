@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "./mongoosetojson.js",
-  "scripts": {
-    "start": "nodemon ./mongoosetojson.js"
-  },
+  "bin": {
+    "run apolloMatic": "./Algorithm/index.js"
+  }, 
   "author": "",
   "license": "ISC",
   "dependencies": {
