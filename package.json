@@ -1,12 +1,17 @@
 {
-  "name": "apollomatic",
+  "name": "mongoosetojson",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./mongoosetojson.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon ./mongoosetojson.js"
   },
-  "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "mongoose": "^7.5.0",
+    "nodemon": "^3.0.1",
+    "path": "^0.12.7"
+  }
 }
