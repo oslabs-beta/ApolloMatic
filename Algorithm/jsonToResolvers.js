@@ -29,15 +29,15 @@ const jsonToResolvers = (jsonObj) => {
     const findById = `${indentByTwo}${typeName.toLowerCase()}: (parent, args, context, info) => {${indentByThree}return ${typeName}.findById(args.id);\n${indentByTwo}},\n`;
     const findAll = `${indentByTwo}${typeName.toLowerCase()}s: () => {${indentByThree}return ${typeName}.find();\n${indentByTwo}},\n`;
 
+    //Add queries to queryReturnBody
+    queryReturnBody += `${findById}${findAll}`;
+
     //for each type name, we need to create an add, update, delete
     //string literal for add mutation
     const addMutation = `${indentByTwo}add${typeName}: async (parent, args, context, info) => {${indentByThree}const { input } = args;${indentByThree}try {${indentByFour}const new${typeName} = new ${typeName}({${indentByFive}...input${indentByFour}});${indentByFour}return new${typeName};${indentByThree}} catch (error) {${indentByFour}throw new ApolloError('Error adding a ${typeName}', 'ADD_${typeName.toUpperCase()}_ERROR', { error });${indentByThree}}\n${indentByTwo}},\n`;
 
     //string literal for delete mutation
     //const deleteMutation = ``
-
-    //Add queries to queryReturnBody
-    queryReturnBody += `${findById}${findAll}`;
 
     //Add each created mutation to the mutationReturnBody var
     mutationReturnBody += `${addMutation}`;
