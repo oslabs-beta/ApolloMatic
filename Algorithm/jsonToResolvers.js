@@ -1,80 +1,67 @@
 //iterate through the json object, grab each model.name (type)
-//generate root query resolver for each type , singular and plural 
+//generate root query resolver for each type , singular and plural
 
 //test
 
-//need to import their database model files , like Users.js / Post.js etc 
+//need to import their database model files , like Users.js / Post.js etc
 
 const jsonToResolvers = (jsonObj) => {
-    const indentation = '  '; 
+  const indentation = "  ";
 
-    let queryReturnStatement = `const resolvers = { \n${indentation}Query: {\n`
+  let queryReturnStatement = `const resolvers = { \n${indentation}Query: {\n`;
 
-    let mutationReturnStatement = `${indentation}Mutation: {`
+  let mutationReturnStatement = `${indentation}Mutation: {`;
 
-    let mutationReturnBody = '';
+  let mutationReturnBody = "";
 
+  let queryReturnBody = "";
 
-    let queryReturnBody = '';
+  //indentation types
+  const indentByTwo = `${indentation}${indentation}`;
+  const indentByThree = `\n${indentation}${indentation}${indentation}`;
+  const indentByFour = `\n${indentation}${indentation}${indentation}${indentation}`;
+  const indentByFive = `\n${indentation}${indentation}${indentation}${indentation}${indentation}`;
 
-    //on each iteration to lowercase the type, add singular and plural of that type 
-    jsonObj.models.forEach((model) => {
-        const typeName = model.name;
+  //on each iteration to lowercase the type, add singular and plural of that type
+  jsonObj.models.forEach((model) => {
+    const typeName = model.name;
 
-        queryReturnBody += `${indentation}${indentation}${typeName.toLowerCase()}: (parent, args, context, info) => {\n${indentation}${indentation}${indentation}return ${typeName}.findById(args.id);\n${indentation}${indentation}},\n`;
-        queryReturnBody += `${indentation}${indentation}${typeName.toLowerCase()}s: () => {\n${indentation}${indentation}${indentation}return ${typeName}.find();\n${indentation}${indentation}},\n`;
+    const findById = `${indentByTwo}${typeName.toLowerCase()}: (parent, args, context, info) => {${indentByThree}return ${typeName}.findById(args.id);\n${indentByTwo}},\n`;
+    const findAll = `${indentByTwo}${typeName.toLowerCase()}s: () => {${indentByThree}return ${typeName}.find();\n${indentByTwo}},\n`;
 
-        //for each type name, we need to create an add, update, delete 
+    //Add queries to queryReturnBody
+    queryReturnBody += `${findById}${findAll}`;
 
-        mutationReturnBody += `\n${indentation}${indentation}add${typeName}: async (parent, args, context, info) => {\n${indentation}${indentation}${indentation}const { input } = args;\n${indentation}${indentation}${indentation}try {\n${indentation}${indentation}${indentation}${indentation}const new${typeName} = new ${typeName}({\n${indentation}${indentation}${indentation}${indentation}${indentation}...input\n${indentation}${indentation}${indentation}${indentation}});\n${indentation}${indentation}${indentation}${indentation}return new${typeName};\n${indentation}${indentation}${indentation}} catch (error) { \n${indentation}${indentation}${indentation}${indentation}throw new ApolloError('Error adding a ${typeName}', 'ADD_${typeName.toUpperCase()}_ERROR', { error });\n${indentation}${indentation}${indentation}}\n${indentation}${indentation}},\n${indentation}`
-    })
-    return `${queryReturnStatement}${queryReturnBody}${indentation}},\n${mutationReturnStatement}${mutationReturnBody}},\n};`
-}
+    //for each type name, we need to create an add, update, delete
+    //string literal to add mutation
+    const addMutation = `${indentByTwo}add${typeName}: async (parent, args, context, info) => {${indentByThree}const { input } = args;${indentByThree}try {${indentByFour}const new${typeName} = new ${typeName}({${indentByFive}...input${indentByFour}});${indentByFour}return new${typeName};${indentByThree}} catch (error) {${indentByFour}throw new ApolloError('Error adding a ${typeName}', 'ADD_${typeName.toUpperCase()}_ERROR', { error });${indentByThree}}\n${indentByTwo}},\n`;
+
+    //string literal to delete mutation
+    const deleteMutation = `${indentByTwo}delete${typeName}: async (parent, args, context, info) => {${indentByThree}try {${indentByFour}const delete${typeName} =  await ${typeName}.findByIdAndRemove(args.id);${indentByFour}if (!delete${typeName}) {${indentByFive}throw new ApolloError('${typeName} not found', '${typeName.toUpperCase()}_NOT_FOUND');${indentByFour}}${indentByFour}return delete${typeName};${indentByThree}} catch (error) {${indentByFour}throw new ApolloError('Error deleting a ${typeName}', 'DELETE_${typeName.toUpperCase()}_ERROR', { error });${indentByThree}}\n${indentByTwo}},\n`;
+
+    //string literal to update mutation
+    // const updateMutation = `${indentBßyTwo}update${typeName}: async (parent, args, context, info) => {${indentByThree}try {${indentByFour}const update${typeName} =  ${typeName.toUpperCase()}.findByIdAndRemove(args.id);${indentByFour}return delete${typeName};${indentByThree}} catch (error) {${indentByFour}throw new ApolloError('Error deleting a ${typeName}', 'DELETE_${typeName.toUpperCase()}_ERROR', { error });${indentByThree}}\n${indentByTwo}},\n`;
+
+    //string literal to create mutation
+
+    //Add each created mutation to the mutationReturnBody var
+    mutationReturnBody += `${addMutation}${deleteMutation}`;
+  });
+  return `${queryReturnStatement}${queryReturnBody}${indentation}},\n${mutationReturnStatement}\n${mutationReturnBody}${indentation}},\n};`;
+};
 
 const resolvers = {
-    Mutation: {
-      createUser: (parent, args) => {
-        const { input } = args;
-        // Implement logic to create a new user, e.g., save to a database
-        const newUser = {
-          id: '1', // Replace with the actual ID generated for the new user
-          ...input,
-        };
-        return newUser;
-      },
+  Mutation: {
+    createUser: (parent, args) => {
+      const { input } = args;
+      // Implement logic to create a new user, e.g., save to a database
+      const newUser = {
+        id: "1", // Replace with the actual ID generated for the new user
+        ...input,
+      };
+      return newUser;
     },
-  };
+  },
+};
 
-// const exampleJSON = {
-//     "models": [
-//       {
-//         "name": "User",
-//         "schema": {
-//           "name": "String",
-//           "age": "Float",
-//           "friends": "[User]"
-//         }
-//       },
-//       {
-//         "name": "Post",
-//         "schema": {
-//           "title": "String!",
-//           "content": "String"
-//         }
-//       }
-//     ]
-//   };
-
-
-module.exports = jsonToResolvers
-
-
-
-
-
-
-
-
-
-
-
+module.exports = jsonToResolvers;
