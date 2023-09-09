@@ -1,10 +1,10 @@
 {
-  "name": "mongoosetojson",
-  "version": "1.0.0",
+  "name": "apollomatic",
+  "version": "0.0.1",
   "description": "",
   "main": "./mongoosetojson.js",
   "bin": {
-    "run apolloMatic": "./Algorithm/index.js"
+    "apolloMatic": "./Algorithm/index.js"
   }, 
   "author": "",
   "license": "ISC",
