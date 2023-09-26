@@ -22,6 +22,9 @@ const jsonToResolvers = (jsonObj) => {
   const indentByFour = `\n${indentation}${indentation}${indentation}${indentation}`;
   const indentByFive = `\n${indentation}${indentation}${indentation}${indentation}${indentation}`;
 
+  //export statements
+  const exportStatement = `\n\nmodule.exports = {\n${indentation}resolvers,\n};`;
+
   //on each iteration to lowercase the type, add singular and plural of that type
   jsonObj.models.forEach((model) => {
     const typeName = model.name;
@@ -40,28 +43,30 @@ const jsonToResolvers = (jsonObj) => {
     const deleteMutation = `${indentByTwo}delete${typeName}: async (parent, args, context, info) => {${indentByThree}try {${indentByFour}const delete${typeName} =  await ${typeName}.findByIdAndRemove(args.id);${indentByFour}if (!delete${typeName}) {${indentByFive}throw new ApolloError('${typeName} not found', '${typeName.toUpperCase()}_NOT_FOUND');${indentByFour}}${indentByFour}return delete${typeName};${indentByThree}} catch (error) {${indentByFour}throw new ApolloError('Error deleting a ${typeName}', 'DELETE_${typeName.toUpperCase()}_ERROR', { error });${indentByThree}}\n${indentByTwo}},\n`;
 
     //string literal to update mutation
-    // const updateMutation = `${indentBßyTwo}update${typeName}: async (parent, args, context, info) => {${indentByThree}try {${indentByFour}const update${typeName} =  ${typeName.toUpperCase()}.findByIdAndRemove(args.id);${indentByFour}return delete${typeName};${indentByThree}} catch (error) {${indentByFour}throw new ApolloError('Error deleting a ${typeName}', 'DELETE_${typeName.toUpperCase()}_ERROR', { error });${indentByThree}}\n${indentByTwo}},\n`;
+    //do i need to use ...input?
+
+    // const updateMutation = `${indentByTwo}update${typeName}: async (parent, args, context, info) => {${indentByThree}try {${indentByFour}const update${typeName} =  ${typeName.toUpperCase()}.findByIdAndRemove(args.id);${indentByFour}return delete${typeName};${indentByThree}} catch (error) {${indentByFour}throw new ApolloError('Error deleting a ${typeName}', 'DELETE_${typeName.toUpperCase()}_ERROR', { error });${indentByThree}}\n${indentByTwo}},\n`;
 
     //string literal to create mutation
 
     //Add each created mutation to the mutationReturnBody var
     mutationReturnBody += `${addMutation}${deleteMutation}`;
   });
-  return `${queryReturnStatement}${queryReturnBody}${indentation}},\n${mutationReturnStatement}\n${mutationReturnBody}${indentation}},\n};`;
+  return `${queryReturnStatement}${queryReturnBody}${indentation}},\n${mutationReturnStatement}\n${mutationReturnBody}${indentation}},\n};${exportStatement}`;
 };
 
-const resolvers = {
-  Mutation: {
-    createUser: (parent, args) => {
-      const { input } = args;
-      // Implement logic to create a new user, e.g., save to a database
-      const newUser = {
-        id: "1", // Replace with the actual ID generated for the new user
-        ...input,
-      };
-      return newUser;
-    },
-  },
-};
+// const resolvers = {
+//   Mutation: {
+//     createUser: (parent, args) => {
+//       const { input } = args;
+//       // Implement logic to create a new user, e.g., save to a database
+//       const newUser = {
+//         id: "1", // Replace with the actual ID generated for the new user
+//         ...input,
+//       };
+//       return newUser;
+//     },
+//   },
+// };
 
 module.exports = jsonToResolvers;
