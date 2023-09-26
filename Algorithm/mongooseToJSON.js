@@ -14,36 +14,62 @@ const exportModels = {
 const convertSchema = () => {
     const collectionNameRegex = /mongoose\.model\s*\(\s*['"]([^'"]+)['"]\s*,/;
 
-    for(const prop in schemas){//iterating through schemas
+    for(const schema in schemas){//iterating through schemas
         //for every property on the schemas object, we are creating a key-value pair, where "name" is the key, and the model name is the value. 
         //the schema key will hold all of the relevant fields for the JSON object that's created for the next step of the algorithm 
         const currentSchema = {
-          "name": prop,
+          "name": schema,
           "schema": {
           }
         };
         // console.log("Schemas:", schemas[prop])
         //this is the "tree" for each schema that the user defined in their config file
-        const mongoSchemas = schemas[prop].schema.tree;
+        const mongoSchema = schemas[schema].schema.tree;
         //for in loop will iterate through each of the user's schemas, and build out "current schema", that will eventually be pushed into the final exportModels object
-        for(field in mongoSchemas){//iterating through each field in each schema
-
-          //*note to John - we also have to account for mongoose schemas that are simpler (re: smartphone)
+        for(field in mongoSchema){//iterating through each field in each schema
+          let isReference = false;
+          let fieldisObject = false;
+          let isArray = false;
+          let currFieldValue = mongoSchema[field];
+          //*note to John - we also have to account for mo ngoose schemas that are simpler (re: smartphone)
           if (field !== "_id" && field !=="id" && field !== "__v"){
-            //create key-value pairs within the "schema" property (currently an empty object)
-            //check all fields for specific properties
-            //Types
-            //checking to see if the type field exists in their schema (the more complex schema re: users)
-            if (mongoSchemas[field].type !== undefined){
-              currentSchema.schema[field] = convertType(mongoSchemas[field].type);
+            
+
+            //Check the field for formatting...ex [], {}, [{}]
+            if(Array.isArray(currFieldValue)){
+              //flag this field as an array
+              isArray = true;
+              //alter the currentFieldValue to be the first element (so that we can check if it is an object)
+              currFieldValue = currFieldValue[0];
+              // console.log(currFieldValue)
+             }
+            //This conditional is checking to see if the type property exits on mongoSchema[field]. This clarifies 
+            //the format that the user is using
+            if (currFieldValue.type !== undefined){//field is a nested object
+              
+              //checks to see if type is a referenc
+              if(String(currFieldValue.type).includes('ObjectId') && currFieldValue.ref){
+                isReference = true;
+              }
+
+              //if type is a reference, get the ref value
+              if(isReference){
+                currentSchema.schema[field] = currFieldValue.ref
+              }else{
+                currentSchema.schema[field] = convertType(currFieldValue.type);
+              }
+              //add brackets of this is an array
+              if(isArray){
+                currentSchema.schema[field] = "[" + currentSchema.schema[field] + "]";
+              }
             //Required
-            if(mongoSchemas[field].required === true) {
+            if(currFieldValue.required === true) {
               currentSchema.schema[field] += '!';
               }
-            } else {
+            } else {//field is not an object
               //what happens with the simpler schema? Required property MUST be enclosed within an object - so we don't have to account for it here?
               // console.log("mongoSchemas[field]:", mongoSchemas[field])
-              currentSchema.schema[field] = convertType(mongoSchemas[field]);
+              currentSchema.schema[field] = convertType(currFieldValue);
             }
             //...the rest of the types when we get to them
           }
@@ -57,7 +83,7 @@ const convertSchema = () => {
     return JSON.stringify(exportModels); 
 }
 
-// console.log(convertSchema());
+console.log(convertSchema());
 
 function convertType(arg){
 

@@ -6,19 +6,24 @@ const UserSchema = new mongoose.Schema({
         required: true,
         description: 'the full name of the user'
     },
-    hiddenField: {
-        type: Map,
-        default: Date.now, 
-        hidden: true
-    },
+    // hiddenField: {
+    //     type: Map,
+    //     default: Date.now, 
+    //     hidden: true
+    // },
     age: {
         type: Number,
         indexed: true,
         required: true
     },
+    // friends: [{
+    //     type: Number,
+    //     ref: 'User',
+    //     required: true
+    // }]
     friends: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
     }]
 });
 
