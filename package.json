@@ -3,9 +3,12 @@
   "version": "1.0.1",
   "description": "",
   "main": "./mongoosetojson.js",
+  "scripts": {
+    "test": "jest"
+  },
   "bin": {
     "apolloMatic": "./Algorithm/index.js"
-  }, 
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
