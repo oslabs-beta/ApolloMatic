@@ -1,9 +1,8 @@
 const fs = require('fs'); 
 const path = require('path');
 const mongoose = require('mongoose');
-
 //schema contains all of the paths that the user defined in the config file; we can then iterate through the object. 
-const schemas = require('../config');
+// const schemas = require('../../apolloconfig.js');
 
 //the final object that contains 
 const exportModels = {
@@ -12,8 +11,8 @@ const exportModels = {
 
 //iterating through schemas object 
 const convertSchema = () => {
-    const collectionNameRegex = /mongoose\.model\s*\(\s*['"]([^'"]+)['"]\s*,/;
-
+    const schemas = require('./index.js'); 
+    console.log('schemasInMongooseToJson:', schemas); 
     for(const schema in schemas){//iterating through schemas
         //for every property on the schemas object, we are creating a key-value pair, where "name" is the key, and the model name is the value. 
         //the schema key will hold all of the relevant fields for the JSON object that's created for the next step of the algorithm 
@@ -83,7 +82,7 @@ const convertSchema = () => {
     return JSON.stringify(exportModels); 
 }
 
-console.log(convertSchema());
+// console.log(convertSchema());
 
 function convertType(arg){
 
@@ -126,6 +125,19 @@ function convertType(arg){
   // return returnedArg; 
   // };
 }
+
+// //   Usage
+// const configPath = findConfigFile();
+
+//   if (configPath) {
+//     const schemas = require(configPath);
+//     // Use the configuration as needed
+//     console.log('Found config file:', schemas);
+//     convertSchema(schemas);
+//   } else {
+//     console.error('Configuration file not found.');
+//   }
+
 
 //Parses through a file and searches using the regex expression
 function regexParser(text,regexExpr) {
