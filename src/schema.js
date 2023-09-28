@@ -9,9 +9,8 @@ type Smartphone {
 type User {
   id: ID!
   name: String!
-  hiddenField: Map
   age: Float!
-  friends: []
+  friends: [User]
 }
 
 type Smartphone {
@@ -24,9 +23,8 @@ type Smartphone {
 type User {
   id: ID!
   name: String!
-  hiddenField: Map
   age: Float!
-  friends: []
+  friends: [User]
 }
 
  input SmartphoneInput {
@@ -37,9 +35,8 @@ type User {
 
 input UserInput {
   name: String!
-  hiddenField: Map
   age: Float!
-  friends: []
+  friends: [User]
 }
 
 input SmartphoneInput {
@@ -50,9 +47,8 @@ input SmartphoneInput {
 
 input UserInput {
   name: String!
-  hiddenField: Map
   age: Float!
-  friends: []
+  friends: [User]
 }
 
  type Query {
