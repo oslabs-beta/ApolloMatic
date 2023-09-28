@@ -42,11 +42,6 @@ const jsonToResolvers = (jsonObj) => {
     //string literal to delete mutation
     const deleteMutation = `${indentByTwo}delete${typeName}: async (parent, args, context, info) => {${indentByThree}try {${indentByFour}const delete${typeName} =  await ${typeName}.findByIdAndRemove(args.id);${indentByFour}if (!delete${typeName}) {${indentByFive}throw new ApolloError('${typeName} not found', '${typeName.toUpperCase()}_NOT_FOUND');${indentByFour}}${indentByFour}return delete${typeName};${indentByThree}} catch (error) {${indentByFour}throw new ApolloError('Error deleting a ${typeName}', 'DELETE_${typeName.toUpperCase()}_ERROR', { error });${indentByThree}}\n${indentByTwo}},\n`;
 
-    //string literal to update mutation
-    //do i need to use ...input?
-
-    // const updateMutation = `${indentByTwo}update${typeName}: async (parent, args, context, info) => {${indentByThree}try {${indentByFour}const update${typeName} =  ${typeName.toUpperCase()}.findByIdAndRemove(args.id);${indentByFour}return delete${typeName};${indentByThree}} catch (error) {${indentByFour}throw new ApolloError('Error deleting a ${typeName}', 'DELETE_${typeName.toUpperCase()}_ERROR', { error });${indentByThree}}\n${indentByTwo}},\n`;
-
     //string literal to create mutation
 
     //Add each created mutation to the mutationReturnBody var

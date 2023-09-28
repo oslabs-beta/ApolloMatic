@@ -1,3 +1,3 @@
 const jsonToResolvers = require("../../Algorithm/jsonToGraphQLTypes");
 
-test('')
+test('given a json object')
