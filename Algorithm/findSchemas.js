@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const findConfigFile = () => {
-    const configFileNames = ['apolloconfig.js']; 
+    const configFileNames = ['apollo-config.js']; 
     let configPath = null;
   
     // Get the current working directory
