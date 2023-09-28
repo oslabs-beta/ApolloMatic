@@ -1,7 +1,8 @@
 const fs = require('fs'); 
 const path = require('path');
 const mongoose = require('mongoose');
-const schemas = require('../config');
+const schemas = require('../apolloconfig.js');
+console.log('schema', schemas);
 const exportModels = {
   "models": [
 ]}
@@ -18,9 +19,7 @@ let parsedMongoSchema = convertSchema();
 parsedMongoSchema = JSON.parse(parsedMongoSchema);
 // Generate GraphQL types and resolvers based on parsed schema
 const graphQLTypes = typesFunction(parsedMongoSchema);
-console.log(graphQLTypes);
-const graphQLResolvers = resolversFunction(parsedMongoSchema);
-console.log(graphQLResolvers);
+const graphQLResolvers = resolversFunction(parsedMongoSchema, schemas);
 
 
 
