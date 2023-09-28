@@ -1,7 +1,7 @@
 const fs = require('fs'); 
 const path = require('path');
 const mongoose = require('mongoose');
-const schemas = require('../apolloconfig.js');
+const schemas = require('../apollo-config.js');
 console.log('schema', schemas);
 const exportModels = {
   "models": [

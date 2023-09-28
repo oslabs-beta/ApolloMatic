@@ -7,7 +7,7 @@ const extractPathFromRequire = (requireStatement) => {
 };
 
 const getConfigRequireStatements = () => {
-  const configFilePath = path.resolve(__dirname, '../apolloconfig.js');  // adjust the path to your config file
+  const configFilePath = path.resolve(__dirname, '../apollo-config.js');  // adjust the path to your config file
   const configFileContent = fs.readFileSync(configFilePath, 'utf-8');
   const requireStatements = configFileContent.match(/require\('.+?'\)/g);
   return requireStatements;
