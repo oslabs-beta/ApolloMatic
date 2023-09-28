@@ -13,8 +13,11 @@
   "license": "ISC",
   "dependencies": {
     "fs": "^0.0.1-security",
-    "mongoose": "^7.5.0",
+    "mongoose": "^7.5.3",
     "nodemon": "^3.0.1",
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }

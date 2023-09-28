@@ -1,3 +1,5 @@
 const jsonToResolvers = require("../../Algorithm/jsonToGraphQLTypes");
 
-test('given a json object')
+describe("JsonToResolver", () => {
+  it.todo("given a json file, GraphQL types should be created");
+});
