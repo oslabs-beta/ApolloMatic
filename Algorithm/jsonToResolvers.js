@@ -16,6 +16,9 @@ const jsonToResolvers = (jsonObj) => {
   const indentByFour = `\n${indentation}${indentation}${indentation}${indentation}`;
   const indentByFive = `\n${indentation}${indentation}${indentation}${indentation}${indentation}`;
 
+  //export statements
+  const exportStatement = `\n\nmodule.exports = {\n${indentation}resolvers,\n};`;
+
   //on each iteration to lowercase the type, add singular and plural of that type
   jsonObj.models.forEach((model) => {
     const typeName = model.name;
@@ -45,18 +48,18 @@ const jsonToResolvers = (jsonObj) => {
   return `${importStatement}${queryReturnStatement}${queryReturnBody}${indentation}},\n${mutationReturnStatement}\n${mutationReturnBody}${indentation}},\n};`;  // Include importStatement here
 };
 
-const resolvers = {
-  Mutation: {
-    createUser: (parent, args) => {
-      const { input } = args;
-      // Implement logic to create a new user, e.g., save to a database
-      const newUser = {
-        id: "1", // Replace with the actual ID generated for the new user
-        ...input,
-      };
-      return newUser;
-    },
-  },
-};
+// const resolvers = {
+//   Mutation: {
+//     createUser: (parent, args) => {
+//       const { input } = args;
+//       // Implement logic to create a new user, e.g., save to a database
+//       const newUser = {
+//         id: "1", // Replace with the actual ID generated for the new user
+//         ...input,
+//       };
+//       return newUser;
+//     },
+//   },
+// };
 
 module.exports = jsonToResolvers;
