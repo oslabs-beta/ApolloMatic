@@ -7,9 +7,7 @@ const exportModels = {
 ]}
 const typesFunction = require('./jsonToGraphQLTypes');
 const resolversFunction = require('./jsonToResolvers');
-
 const findSchemas = require('./findSchemas'); 
-
 const { convertSchema, convertType } = require('./mongooseToJSON')
 
 //
