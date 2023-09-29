@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 //testing... delete after done with tests
-const schemas = require("../config");
+// const schemas = require("../config");
 
 //the final object that contains
 const exportModels = {
@@ -10,6 +10,8 @@ const exportModels = {
 
 //iterating through schemas object
 const convertSchema = () => {
+  const schemas = require('./index.js'); 
+  console.log('schemasInMongooseToJson:', schemas); 
   for (const schema in schemas) {
     //iterating through schemas
     //for every property on the schemas object, we are creating a key-value pair, where "name" is the key, and the model name is the value.
@@ -75,9 +77,11 @@ const convertSchema = () => {
         //...the rest of the types when we get to them
       }
     }
-
+     //push the generated object into the exportModels object
+     exportModels.models.push(currentSchema);
   }
-
+  //the next algorithm is expecting a JSON object.
+  return JSON.stringify(exportModels); 
 };
 
 
