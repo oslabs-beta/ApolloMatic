@@ -1,17 +1,16 @@
 {
   "name": "apollomatic",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "",
   "main": "./mongoosetojson.js",
   "scripts": {
-    "test": "jest"
-  },
-  "bin": {
-    "apolloMatic": "./Algorithm/index.js"
+    "test": "jest",
+    "apolloMatic": "node ./Algorithm/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "find-up": "^6.3.0",
     "fs": "^0.0.1-security",
     "mongoose": "^7.5.3",
     "nodemon": "^3.0.1",

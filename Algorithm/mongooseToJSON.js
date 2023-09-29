@@ -1,8 +1,5 @@
 const mongoose = require("mongoose");
 
-//schema contains all of the paths that the user defined in the config file; we can then iterate through the object.
-// const schemas = require('../apollo-config');
-
 //testing... delete after done with tests
 const schemas = require("../config");
 
@@ -79,12 +76,10 @@ const convertSchema = () => {
       }
     }
 
-    //push the generated object into the exportModels object
-    exportModels.models.push(currentSchema);
   }
-  //the next algorithm is expecting a JSON object.
-  return JSON.stringify(exportModels);
+
 };
+
 
 function convertType(arg) {
   //types obj that allows for conversion
