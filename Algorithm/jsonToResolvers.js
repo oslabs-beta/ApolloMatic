@@ -1,7 +1,32 @@
-const jsonToResolvers = (jsonObj) => {
+const path = require('path');
+const fs = require('fs');
+
+const extractPathFromRequire = (requireStatement) => {
+  const match = requireStatement.match(/require\('(.+?)'\)/);
+  return match ? match[1] : null;
+};
+
+const getConfigRequireStatements = () => {
+  const configFilePath = path.resolve(__dirname, '../apollo-config.js');  // adjust the path to your config file
+  const configFileContent = fs.readFileSync(configFilePath, 'utf-8');
+  const requireStatements = configFileContent.match(/require\('.+?'\)/g);
+  return requireStatements;
+};
+
+const jsonToResolvers = (jsonObj, schemas) => {
   const indentation = "  ";
 
-  let importStatement = `const { ApolloError } = require('apollo-server-express');\n\n`;  // Import statement
+
+  const requireStatements = getConfigRequireStatements();
+
+  let importStatements = Object.keys(schemas).map((modelName, index) => {
+      const modelPath = extractPathFromRequire(requireStatements[index]);
+      const adjustedPath = path.join('..', modelPath);
+      return `const ${modelName} = require('${adjustedPath}');\n`;
+  }).join('');
+
+  // Concatenate import statements with the ApolloError import
+  importStatements = `const { ApolloError } = require('apollo-server-express');\n${importStatements}\n`;
   let queryReturnStatement = `const resolvers = { \n${indentation}Query: {\n`;
 
   let mutationReturnStatement = `${indentation}Mutation: {`;
@@ -45,21 +70,8 @@ const jsonToResolvers = (jsonObj) => {
     mutationReturnBody += `${addMutation}${deleteMutation}${updateMutation}`;  // Include updateMutation here
 
   });
-  return `${importStatement}${queryReturnStatement}${queryReturnBody}${indentation}},\n${mutationReturnStatement}\n${mutationReturnBody}${indentation}},\n};`;  // Include importStatement here
+  return `${importStatements}${queryReturnStatement}${queryReturnBody}${indentation}},\n${mutationReturnStatement}\n${mutationReturnBody}${indentation}},\n};`;  // Include importStatement here
 };
 
-// const resolvers = {
-//   Mutation: {
-//     createUser: (parent, args) => {
-//       const { input } = args;
-//       // Implement logic to create a new user, e.g., save to a database
-//       const newUser = {
-//         id: "1", // Replace with the actual ID generated for the new user
-//         ...input,
-//       };
-//       return newUser;
-//     },
-//   },
-// };
 
 module.exports = jsonToResolvers;
