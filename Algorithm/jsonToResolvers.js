@@ -7,10 +7,17 @@ const extractPathFromRequire = (requireStatement) => {
 };
 
 const getConfigRequireStatements = () => {
-  const configFilePath = path.resolve('./apollo-config.js');  // adjust the path to your config file
-  const configFileContent = fs.readFileSync(configFilePath, 'utf-8');
+  const configFilePath = path.resolve('./apollo-config.js');
+  let configFileContent = fs.readFileSync(configFilePath, 'utf-8');
+
+  // Find the position of '*/' and get the substring from that position onwards
+  const startPos = configFileContent.indexOf('*/');
+  if (startPos !== -1) {
+      // Start reading from the character right after '*/'
+      configFileContent = configFileContent.substring(startPos + 2);
+  }
+
   const requireStatements = configFileContent.match(/require\('.+?'\)/g);
-  console.log("REQUIRE STATEMMENTS: ",requireStatements)
   return requireStatements;
 };
 
