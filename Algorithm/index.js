@@ -1,7 +1,10 @@
 const fs = require('fs'); 
 const path = require('path');
 const mongoose = require('mongoose');
-// const schemas = require('../config');
+const userRootDir = process.cwd();
+// console.log("USER ROOT DIRECTORY",userRootDir)
+const schemas = require(path.join(userRootDir,'apollo-config.js'));
+console.log('schema', schemas);
 const exportModels = {
   "models": [
 ]}
@@ -31,9 +34,8 @@ console.log('parsedMongoSchema:', parsedMongoSchema);
 parsedMongoSchema = JSON.parse(parsedMongoSchema);
 // Generate GraphQL types and resolvers based on parsed schema
 const graphQLTypes = typesFunction(parsedMongoSchema);
-console.log(graphQLTypes);
-const graphQLResolvers = resolversFunction(parsedMongoSchema);
-console.log(graphQLResolvers);
+const graphQLResolvers = resolversFunction(parsedMongoSchema, schemas);
+
 
 
 // Write to file
