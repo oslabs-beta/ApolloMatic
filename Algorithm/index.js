@@ -8,14 +8,27 @@ const exportModels = {
 ]}
 const typesFunction = require('./jsonToGraphQLTypes');
 const resolversFunction = require('./jsonToResolvers');
-
+const findSchemas = require('./findSchemas'); 
 const { convertSchema, convertType } = require('./mongooseToJSON')
+
+//
+let configFilePath = findSchemas(); 
+
+console.log("configFilePath: ", configFilePath);
+
+if (configFilePath) {
+  const schemas = require(configFilePath);
+  console.log('schemas:', schemas);
+  module.exports = schemas; 
+} else {
+  console.error('Configuration file not found.');
+}
 
 //parse the mongo schema and convert it into a JSON object
 let parsedMongoSchema = convertSchema(); 
 
+console.log('parsedMongoSchema:', parsedMongoSchema); 
 
-// console.log("Parsed Mongo: ", parsedMongoSchema);
 parsedMongoSchema = JSON.parse(parsedMongoSchema);
 // Generate GraphQL types and resolvers based on parsed schema
 const graphQLTypes = typesFunction(parsedMongoSchema);
@@ -47,12 +60,3 @@ function writeResolvesToFile(graphQLResolvers) {
 }
 
 writeResolvesToFile(graphQLResolvers);
-
-//check if the src folder exists, if it doesn't, make one 
-//add a file called schema and put graphQLTypes in it 
-
-//src 
-  //schema file for types 
-  //resolver folder 
-    //index.js 
-

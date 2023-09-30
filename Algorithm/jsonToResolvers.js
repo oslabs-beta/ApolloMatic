@@ -41,6 +41,9 @@ const jsonToResolvers = (jsonObj, schemas) => {
   const indentByFour = `\n${indentation}${indentation}${indentation}${indentation}`;
   const indentByFive = `\n${indentation}${indentation}${indentation}${indentation}${indentation}`;
 
+  //export statements
+  const exportStatement = `\n\nmodule.exports = {\n${indentation}resolvers,\n};`;
+
   //on each iteration to lowercase the type, add singular and plural of that type
   jsonObj.models.forEach((model) => {
     const typeName = model.name;
