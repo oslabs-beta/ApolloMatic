@@ -91,10 +91,16 @@ function convertType(arg) {
     String: "String",
     Number: "Float",
     Date: "Int",
+    // Buffer: ,
     Boolean: "Boolean",
-    BigInt: "Int",
+    // Mixed: ,
+    // ObjectId: , -> This is taken care of in the convertSchema function.
+    // Array: , 
     Decimal128: "Float",
-    Map: "Map",
+    // Map:,
+    // Schema: ,
+    // UUID: ,
+    BigInt: "Int",
   };
 
   let type = "";

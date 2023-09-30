@@ -1,7 +1,9 @@
 const fs = require('fs'); 
 const path = require('path');
 const mongoose = require('mongoose');
-const schemas = require('../apollo-config.js');
+const userRootDir = process.cwd();
+// console.log("USER ROOT DIRECTORY",userRootDir)
+const schemas = require(path.join(userRootDir,'apollo-config.js'));
 console.log('schema', schemas);
 const exportModels = {
   "models": [

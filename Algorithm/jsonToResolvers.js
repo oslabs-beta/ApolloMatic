@@ -7,9 +7,10 @@ const extractPathFromRequire = (requireStatement) => {
 };
 
 const getConfigRequireStatements = () => {
-  const configFilePath = path.resolve(__dirname, '../apollo-config.js');  // adjust the path to your config file
+  const configFilePath = path.resolve('./apollo-config.js');  // adjust the path to your config file
   const configFileContent = fs.readFileSync(configFilePath, 'utf-8');
   const requireStatements = configFileContent.match(/require\('.+?'\)/g);
+  console.log("REQUIRE STATEMMENTS: ",requireStatements)
   return requireStatements;
 };
 
@@ -22,6 +23,8 @@ const jsonToResolvers = (jsonObj, schemas) => {
   let importStatements = Object.keys(schemas).map((modelName, index) => {
       const modelPath = extractPathFromRequire(requireStatements[index]);
       const adjustedPath = path.join('..', modelPath);
+      console.log('MODEL NAME: ', modelName);
+      console.log('MODEL PATH: ', modelPath)
       return `const ${modelName} = require('${adjustedPath}');\n`;
   }).join('');
 
