@@ -34,7 +34,7 @@ const jsonToGraphQLTypes = (jsonObj) => {
   typeMutation += '}\n\n';
 
   // return `const typeDefs = gql\` \n${typeQuery} ${typeMutation} ${typeDefs}\``;
-  return `import { gql } from 'apollo-server-express';\n\nexport const typeDefs = gql\` \n${typeDefs} ${typeInputs} ${typeQuery} ${typeMutation}\``;
+  return `const { gql } = require('apollo-server-express');\n\nexport const typeDefs = gql\` \n${typeDefs} ${typeInputs} ${typeQuery} ${typeMutation}\``;
 };
 
 module.exports = jsonToGraphQLTypes;
