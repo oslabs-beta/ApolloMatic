@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const userRootDir = process.cwd();
 // console.log("USER ROOT DIRECTORY",userRootDir)
 const schemas = require(path.join(userRootDir,'apollo-config.js'));
-console.log('schema', schemas);
+// console.log('schema', schemas);
 const exportModels = {
   "models": [
 ]}
@@ -16,11 +16,11 @@ const { convertSchema, convertType } = require('./mongooseToJSON')
 //
 let configFilePath = findSchemas(); 
 
-console.log("configFilePath: ", configFilePath);
+// console.log("configFilePath: ", configFilePath);
 
 if (configFilePath) {
   const schemas = require(configFilePath);
-  console.log('schemas:', schemas);
+  // console.log('schemas:', schemas);
   module.exports = schemas; 
 } else {
   console.error('Configuration file not found.');
