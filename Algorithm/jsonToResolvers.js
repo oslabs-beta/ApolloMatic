@@ -6,7 +6,7 @@ const extractPathFromRequire = (requireStatement) => {
   return match ? match[1] : null;
 };
 
-const getConfigRequireStatements = () => {
+const getConfigRequireStatements = () => {1
   const configFilePath = path.resolve('./apollo-config.js');
   let configFileContent = fs.readFileSync(configFilePath, 'utf-8');
 
@@ -30,13 +30,13 @@ const jsonToResolvers = (jsonObj, schemas) => {
   let importStatements = Object.keys(schemas).map((modelName, index) => {
       const modelPath = extractPathFromRequire(requireStatements[index]);
       const adjustedPath = path.join('..', modelPath);
-      console.log('MODEL NAME: ', modelName);
-      console.log('MODEL PATH: ', modelPath)
+      // console.log('MODEL NAME: ', modelName);
+      // console.log('MODEL PATH: ', modelPath)
       return `const ${modelName} = require('${adjustedPath}');\n`;
   }).join('');
 
   // Concatenate import statements with the ApolloError import
-  importStatements = `const { ApolloError } = require('apollo-server-express');\n${importStatements}\n`;
+  importStatements = `const { ApolloError, GraphQLScalarType, Kind } = require('apollo-server-express');\n${importStatements}\n`;
   let queryReturnStatement = `const resolvers = { \n${indentation}Query: {\n`;
 
   let mutationReturnStatement = `${indentation}Mutation: {`;
