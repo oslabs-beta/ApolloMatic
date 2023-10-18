@@ -42,13 +42,8 @@ const exportModels = {
     const schemaTree = schemas[schema].schema.tree;
     // console.log("SchemaTree: ", schemaTree)
     for (field in schemaTree) {
-      // console.log("THIS TREE...",field," : " , JSON.stringify(schemaTree[field]) )
-      // console.log("THIS TREE...",field," : " , schemaTree[field] )
-      // console.log("typeof: ", typeof schemaTree[field]);
-      // console.log("isArray?: ", Array.isArray(schemaTree[field]));
-      // console.log("Does type exist? :", schemaTree[field].type)
-      // console.log("is this nested?: ", schemaTree[field].thisIsNested)
-      console.log("\n\n\n");
+      if(schemaTree[field].tree) console.log("Tree")
+      console.log("Field: ", field, schemaTree[field])
       let isReference = false;
 
       let isArray = false;
@@ -69,8 +64,22 @@ const exportModels = {
 
 
 function convertType(arg, nested = false) {
-  console.log("Arg.", arg)
+  // console.log("Arg.", arg)
   let type = "";
+  if(arg.tree){
+    console.log("Tree", arg.tree)
+    const retObj = {};
+    //iterate over all of the fields other than _id, id, __v
+    for(const [key, value] of Object.entries(arg.tree)){
+
+      if(key !== "id" && key !== "_id" && key !== "__v"  ){
+        console.log("k:v ",key, value)
+        retObj[key] = convertType(value);
+      }
+    }
+    return retObj;
+  } 
+
 
   /*
 
@@ -81,12 +90,13 @@ function convertType(arg, nested = false) {
   //If arg...
     //has a type property AND (is NOT and object OR type IS an array)...
     //then recursion will be used by passing in the value of arg.type
+    if(arg.type) console.log("Type:" ,String(arg.type))
   if(arg.type && (!(typeof arg.type === "object") || Array.isArray(arg.type))) return convertType(arg.type);
   if((arg.type && arg.type.obj)){//|| (arg.type && arg.type.obj)
     // console.log( "Type obj: ", arg.type.obj)
     const tempObj = {};
     for(const [k, v] of Object.entries(arg.type.obj)){
-      console.log("Converting :", v)
+      // console.log("Converting :", v)
       tempObj[k] = convertType(v);
     }
     // console.log("Temp Obj :" , tempObj)
@@ -99,7 +109,7 @@ function convertType(arg, nested = false) {
     //then recursively call the 0th element , returning the evaluated result wrapped in brackets
   if(Array.isArray(arg)){
     // console.log("Array!: ",arg[0])
-    return "[" + convertType(arg[0]) +  "]";
+    return [convertType(arg[0])];
   } 
   //If arg...
     //IS an object AND the type is not a property OR( type and type.obj IS a property)
@@ -109,10 +119,10 @@ function convertType(arg, nested = false) {
     // console.log( "Type obj: ", arg.type.obj)
     const tempObj = {};
     for(const [k, v] of Object.entries(arg)){
-      console.log("Converting :", v)
+      // console.log("Converting :", v)
       tempObj[k] = convertType(v);
     }
-    console.log("Temp Obj :" , tempObj)
+    // console.log("Temp Obj :" , tempObj)
     return tempObj;
 
   } 
@@ -127,8 +137,8 @@ function convertType(arg, nested = false) {
   
   //turn the arg into a string.
   const stringifiedArg = String(arg);
-  console.log("Stringified type: ", stringifiedArg)
-  console.log("--------------------------------------------------------------------------------------------------------------")
+  // console.log("Stringified type: ", stringifiedArg)
+  // console.log("--------------------------------------------------------------------------------------------------------------")
 
   //check to see if the keys in the typesObj are present within the passed in arg.
   for (const string in typesObj) {
@@ -147,7 +157,7 @@ function convertType(arg, nested = false) {
     type = "ApolloMaticBufferScalar";
   }else if ("function Mixed" === stringifiedArg.slice(0,14)){//Buffer
     type = "ApolloMaticMixedScalar";
-  }else if ("class ObjectId extends BSONValue {" === stringifiedArg.slice(0,34)){//Buffer
+  }else if ("function ObjectId" === stringifiedArg.slice(0,17)){//Buffer
     type = "ID";
   }
 
@@ -159,5 +169,5 @@ function convertType(arg, nested = false) {
 
   return type;
 }
-console.log("exportModels: ",exportModels);
+// console.log("exportModels: ",exportModels);
 module.exports = { convertSchema, convertType };
