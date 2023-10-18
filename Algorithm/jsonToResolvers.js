@@ -56,8 +56,8 @@ const jsonToResolvers = (jsonObj, schemas) => {
   jsonObj.models.forEach((model) => {
     const typeName = model.name;
 
-    const findById = `${indentByTwo}${typeName.toLowerCase()}: (parent, args, context, info) => {${indentByThree}return ${typeName}.findById(args.id).exec();\n${indentByTwo}},\n`;
-    const findAll = `${indentByTwo}${typeName.toLowerCase()}s: () => {${indentByThree}return ${typeName}.find().exec();\n${indentByTwo}},\n`;
+    const findById = `${indentByTwo}get${typeName}: (parent, args, context, info) => {${indentByThree}return ${typeName}.findById(args.id).exec();\n${indentByTwo}},\n`;
+    const findAll = `${indentByTwo}get${typeName}s: () => {${indentByThree}return ${typeName}.find().exec();\n${indentByTwo}},\n`;
 
     //Add queries to queryReturnBody
     queryReturnBody += `${findById}${findAll}`;
@@ -72,10 +72,9 @@ const jsonToResolvers = (jsonObj, schemas) => {
    //string literal to update mutation
     const updateMutation = `${indentByTwo}update${typeName}: async (parent, args, context, info) => {${indentByThree}const { input } = args;${indentByThree}try {${indentByFour}const updated${typeName} = await ${typeName}.findByIdAndUpdate(args.id, {${indentByFive}...input${indentByFour}}, { new: true }).exec();${indentByFour}if (!updated${typeName}) {${indentByFive}throw new ApolloError('${typeName} not found', '${typeName.toUpperCase()}_NOT_FOUND');${indentByFour}}${indentByFour}return updated${typeName};${indentByThree}} catch (error) {${indentByFour}throw new ApolloError('Error updating a ${typeName}', 'UPDATE_${typeName.toUpperCase()}_ERROR', { error });${indentByThree}}\n${indentByTwo}},\n`;
 
-    //string literal to create mutation
 
     //Add each created mutation to the mutationReturnBody var
-    mutationReturnBody += `${addMutation}${deleteMutation}${updateMutation}`;  // Include updateMutation here
+    mutationReturnBody += `${addMutation}${deleteMutation}${updateMutation}`;  
 
   });
   return `${importStatements}${queryReturnStatement}${queryReturnBody}${indentation}},\n${mutationReturnStatement}\n${mutationReturnBody}${indentation}},\n};\n module.exports = resolvers;`;  
