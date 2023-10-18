@@ -21,6 +21,7 @@ const getConfigRequireStatements = () => {
   return requireStatements;
 };
 
+
 const jsonToResolvers = (jsonObj, schemas) => {
   const indentation = "  ";
 
@@ -30,8 +31,6 @@ const jsonToResolvers = (jsonObj, schemas) => {
   let importStatements = Object.keys(schemas).map((modelName, index) => {
       const modelPath = extractPathFromRequire(requireStatements[index]);
       const adjustedPath = path.join('..', modelPath);
-      console.log('MODEL NAME: ', modelName);
-      console.log('MODEL PATH: ', modelPath)
       return `const ${modelName} = require('${adjustedPath}');\n`;
   }).join('');
 
