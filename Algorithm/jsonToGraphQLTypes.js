@@ -17,8 +17,8 @@ const jsonToGraphQLTypes = (jsonObj) => {
       let typeInput = `input ${typeName}Input {\n`;
 
       // Generate Query Type Definitions
-      typeQuery += `  ${typeName.toLowerCase()}(id: ID!): ${typeName}\n`;
-      typeQuery += `  ${typeName.toLowerCase()}s: [${typeName}]\n`;
+      typeQuery += `  get${typeName}(id: ID!): ${typeName}\n`;
+      typeQuery += `  get${typeName}s: [${typeName}]\n`;
 
       // Generate Mutation Type Definitions
       typeMutation += `  add${typeName}(input: ${typeName}Input!): ${typeName}\n`;
@@ -41,7 +41,7 @@ const jsonToGraphQLTypes = (jsonObj) => {
   typeMutation += '}\n\n';
 
   // return `const typeDefs = gql\` \n${typeQuery} ${typeMutation} ${typeDefs}\``;
-  return `const { gql } = require('apollo-server-express');${customScalarRequires}\n\nexport const typeDefs = gql\` \n${customScalars} ${typeDefs} ${typeInputs} ${typeQuery} ${typeMutation}\``;
+  return `const { gql } = require('apollo-server-express');${customScalarRequires}\n\nconst typeDefs = gql\` \n${customScalars} ${typeDefs} ${typeInputs} ${typeQuery} ${typeMutation}\`\n\n module.exports = typeDefs;`;
 };
 
 module.exports = jsonToGraphQLTypes;
