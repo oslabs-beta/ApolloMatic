@@ -3,6 +3,9 @@
   "version": "1.0.4",
   "description": "",
   "main": "./mongoosetojson.js",
+  "bin": {
+    "apollomatic": "./Algorithm/index.js"
+  },
   "scripts": {
     "test": "jest",
     "apolloMatic": "node ./Algorithm/index.js"
