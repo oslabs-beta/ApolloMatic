@@ -1,4 +1,11 @@
 const jsonToGraphQLTypes = (jsonObj) => {
+  
+  const customScalars = 'scalar ApolloMaticDateScalar\nscalar ApolloMaticBufferScalar\nscalar ApolloMaticMixedScalar\nscalar ApolloMaticMapScalar\n\n';
+  let customScalarRequires = '\nconst ApolloMaticDateScalar = require(\'../node_modules/apollomatic/CustomScalars/ApolloMaticDateScalar.js\');'
+  customScalarRequires +='\nconst ApolloMaticBufferScalar = require(\'../node_modules/apollomatic/CustomScalars/ApolloMaticBufferScalar.js\');'
+  customScalarRequires +='\nconst ApolloMaticMixedScalar = require(\'../node_modules/apollomatic/CustomScalars/ApolloMaticMixedScalar.js\');'
+  customScalarRequires +='\nconst ApolloMaticMapScalar = require(\'../node_modules/apollomatic/CustomScalars/ApolloMaticMapScalar.js\');'
+  
   let typeQuery = 'type Query {\n';
   let typeMutation = 'type Mutation {\n';
   let typeDefs = '';
@@ -10,8 +17,8 @@ const jsonToGraphQLTypes = (jsonObj) => {
       let typeInput = `input ${typeName}Input {\n`;
 
       // Generate Query Type Definitions
-      typeQuery += `  ${typeName.toLowerCase()}(id: ID!): ${typeName}\n`;
-      typeQuery += `  ${typeName.toLowerCase()}s: [${typeName}]\n`;
+      typeQuery += `  get${typeName}(id: ID!): ${typeName}\n`;
+      typeQuery += `  get${typeName}s: [${typeName}]\n`;
 
       // Generate Mutation Type Definitions
       typeMutation += `  add${typeName}(input: ${typeName}Input!): ${typeName}\n`;
@@ -34,7 +41,7 @@ const jsonToGraphQLTypes = (jsonObj) => {
   typeMutation += '}\n\n';
 
   // return `const typeDefs = gql\` \n${typeQuery} ${typeMutation} ${typeDefs}\``;
-  return `import { gql } from 'apollo-server-express';\n\nexport const typeDefs = gql\` \n${typeDefs} ${typeInputs} ${typeQuery} ${typeMutation}\``;
+  return `const { gql } = require('apollo-server-express');${customScalarRequires}\n\nconst typeDefs = gql\` \n${customScalars} ${typeDefs} ${typeInputs} ${typeQuery} ${typeMutation}\`\n\n module.exports = typeDefs;`;
 };
 
 module.exports = jsonToGraphQLTypes;

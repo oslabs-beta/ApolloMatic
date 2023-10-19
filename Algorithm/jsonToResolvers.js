@@ -6,12 +6,21 @@ const extractPathFromRequire = (requireStatement) => {
   return match ? match[1] : null;
 };
 
-const getConfigRequireStatements = () => {
-  const configFilePath = path.resolve(__dirname, '../apollo-config.js');  // adjust the path to your config file
-  const configFileContent = fs.readFileSync(configFilePath, 'utf-8');
+const getConfigRequireStatements = () => {1
+  const configFilePath = path.resolve('./apollo-config.js');
+  let configFileContent = fs.readFileSync(configFilePath, 'utf-8');
+
+  // Find the position of '*/' and get the substring from that position onwards
+  const startPos = configFileContent.indexOf('*/');
+  if (startPos !== -1) {
+      // Start reading from the character right after '*/'
+      configFileContent = configFileContent.substring(startPos + 2);
+  }
+
   const requireStatements = configFileContent.match(/require\('.+?'\)/g);
   return requireStatements;
 };
+
 
 const jsonToResolvers = (jsonObj, schemas) => {
   const indentation = "  ";
@@ -26,7 +35,7 @@ const jsonToResolvers = (jsonObj, schemas) => {
   }).join('');
 
   // Concatenate import statements with the ApolloError import
-  importStatements = `const { ApolloError } = require('apollo-server-express');\n${importStatements}\n`;
+  importStatements = `const { ApolloError, GraphQLScalarType, Kind } = require('apollo-server-express');\n${importStatements}\n`;
   let queryReturnStatement = `const resolvers = { \n${indentation}Query: {\n`;
 
   let mutationReturnStatement = `${indentation}Mutation: {`;
@@ -41,36 +50,34 @@ const jsonToResolvers = (jsonObj, schemas) => {
   const indentByFour = `\n${indentation}${indentation}${indentation}${indentation}`;
   const indentByFive = `\n${indentation}${indentation}${indentation}${indentation}${indentation}`;
 
-  //export statements
-  const exportStatement = `\n\nmodule.exports = {\n${indentation}resolvers,\n};`;
+  // const exportStatement = `\n\nmodule.exports = {\n${indentation}resolvers,\n};`;
 
   //on each iteration to lowercase the type, add singular and plural of that type
   jsonObj.models.forEach((model) => {
     const typeName = model.name;
 
-    const findById = `${indentByTwo}${typeName.toLowerCase()}: (parent, args, context, info) => {${indentByThree}return ${typeName}.findById(args.id);\n${indentByTwo}},\n`;
-    const findAll = `${indentByTwo}${typeName.toLowerCase()}s: () => {${indentByThree}return ${typeName}.find();\n${indentByTwo}},\n`;
+    const findById = `${indentByTwo}get${typeName}: (parent, args, context, info) => {${indentByThree}return ${typeName}.findById(args.id).exec();\n${indentByTwo}},\n`;
+    const findAll = `${indentByTwo}get${typeName}s: () => {${indentByThree}return ${typeName}.find().exec();\n${indentByTwo}},\n`;
 
     //Add queries to queryReturnBody
     queryReturnBody += `${findById}${findAll}`;
 
     //for each type name,  create an add, update, delete
     //string literal to add mutation
-    const addMutation = `${indentByTwo}add${typeName}: async (parent, args, context, info) => {${indentByThree}const { input } = args;${indentByThree}try {${indentByFour}const new${typeName} = new ${typeName}({${indentByFive}...input${indentByFour}});${indentByFour}return new${typeName};${indentByThree}} catch (error) {${indentByFour}throw new ApolloError('Error adding a ${typeName}', 'ADD_${typeName.toUpperCase()}_ERROR', { error });${indentByThree}}\n${indentByTwo}},\n`;
+    const addMutation = `${indentByTwo}add${typeName}: async (parent, args, context, info) => {${indentByThree}const { input } = args;${indentByThree}try {${indentByFour}const new${typeName} = new ${typeName}({${indentByFive}...input${indentByFour}});${indentByFour}await new${typeName}.save();${indentByFour}return new${typeName};${indentByThree}} catch (error) {${indentByFour}throw new ApolloError('Error adding a ${typeName}', 'ADD_${typeName.toUpperCase()}_ERROR', { error });${indentByThree}}\n${indentByTwo}},\n`;
 
     //string literal to delete mutation
-    const deleteMutation = `${indentByTwo}delete${typeName}: async (parent, args, context, info) => {${indentByThree}try {${indentByFour}const delete${typeName} =  await ${typeName}.findByIdAndRemove(args.id);${indentByFour}if (!delete${typeName}) {${indentByFive}throw new ApolloError('${typeName} not found', '${typeName.toUpperCase()}_NOT_FOUND');${indentByFour}}${indentByFour}return delete${typeName};${indentByThree}} catch (error) {${indentByFour}throw new ApolloError('Error deleting a ${typeName}', 'DELETE_${typeName.toUpperCase()}_ERROR', { error });${indentByThree}}\n${indentByTwo}},\n`;
+    const deleteMutation = `${indentByTwo}delete${typeName}: async (parent, args, context, info) => {${indentByThree}try {${indentByFour}const delete${typeName} =  await ${typeName}.findByIdAndRemove(args.id).exec();${indentByFour}if (!delete${typeName}) {${indentByFive}throw new ApolloError('${typeName} not found', '${typeName.toUpperCase()}_NOT_FOUND');${indentByFour}}${indentByFour}return delete${typeName};${indentByThree}} catch (error) {${indentByFour}throw new ApolloError('Error deleting a ${typeName}', 'DELETE_${typeName.toUpperCase()}_ERROR', { error });${indentByThree}}\n${indentByTwo}},\n`;
 
    //string literal to update mutation
-    const updateMutation = `${indentByTwo}update${typeName}: async (parent, args, context, info) => {${indentByThree}const { input } = args;${indentByThree}try {${indentByFour}const updated${typeName} = await ${typeName}.findByIdAndUpdate(args.id, {${indentByFive}...input${indentByFour}}, { new: true });${indentByFour}if (!updated${typeName}) {${indentByFive}throw new ApolloError('${typeName} not found', '${typeName.toUpperCase()}_NOT_FOUND');${indentByFour}}${indentByFour}return updated${typeName};${indentByThree}} catch (error) {${indentByFour}throw new ApolloError('Error updating a ${typeName}', 'UPDATE_${typeName.toUpperCase()}_ERROR', { error });${indentByThree}}\n${indentByTwo}},\n`;
+    const updateMutation = `${indentByTwo}update${typeName}: async (parent, args, context, info) => {${indentByThree}const { input } = args;${indentByThree}try {${indentByFour}const updated${typeName} = await ${typeName}.findByIdAndUpdate(args.id, {${indentByFive}...input${indentByFour}}, { new: true }).exec();${indentByFour}if (!updated${typeName}) {${indentByFive}throw new ApolloError('${typeName} not found', '${typeName.toUpperCase()}_NOT_FOUND');${indentByFour}}${indentByFour}return updated${typeName};${indentByThree}} catch (error) {${indentByFour}throw new ApolloError('Error updating a ${typeName}', 'UPDATE_${typeName.toUpperCase()}_ERROR', { error });${indentByThree}}\n${indentByTwo}},\n`;
 
-    //string literal to create mutation
 
     //Add each created mutation to the mutationReturnBody var
-    mutationReturnBody += `${addMutation}${deleteMutation}${updateMutation}`;  // Include updateMutation here
+    mutationReturnBody += `${addMutation}${deleteMutation}${updateMutation}`;  
 
   });
-  return `${importStatements}${queryReturnStatement}${queryReturnBody}${indentation}},\n${mutationReturnStatement}\n${mutationReturnBody}${indentation}},\n};`;  // Include importStatement here
+  return `${importStatements}${queryReturnStatement}${queryReturnBody}${indentation}},\n${mutationReturnStatement}\n${mutationReturnBody}${indentation}},\n};\n module.exports = resolvers;`;  
 };
 
 
