@@ -11,25 +11,49 @@ const jsonToGraphQLTypes = (jsonObj) => {
   let typeDefs = '';
   let typeInputs = '';
   
+  // console.log("json" , JSON.stringify(jsonObj))
   jsonObj.models.forEach((model) => {
       const typeName = model.name;
       let typeDef = `type ${typeName} {\n  id: ID!\n`;
       let typeInput = `input ${typeName}Input {\n`;
 
       // Generate Query Type Definitions
-      typeQuery += `  get${typeName}(id: ID!): ${typeName}\n`;
-      typeQuery += `  get${typeName}s: [${typeName}]\n`;
+      typeQuery += `  ${typeName.toLowerCase()}(id: ID!): ${typeName}\n`;
+      typeQuery += `  ${typeName.toLowerCase()}s: [${typeName}]\n`;
 
       // Generate Mutation Type Definitions
       typeMutation += `  add${typeName}(input: ${typeName}Input!): ${typeName}\n`;
       typeMutation += `  update${typeName}(id: ID!, input: ${typeName}Input!): ${typeName}\n`;
       typeMutation += `  delete${typeName}(id: ID!): ${typeName}\n`;
 
-      // Generate Type Definitions
-      for (const [key, value] of Object.entries(model.schema)) {
-          typeDef += `  ${key}: ${value}\n`;
+      const RemoveJSONQuotes = (jsonString) => {
+      
+      let retStr = "";
+      for(let i = 0; i < jsonString.length; i++){
+        if(jsonString[i] === '}') retStr += ' ';
+        if(jsonString[i] !== '"') retStr += jsonString[i];
+        if(jsonString[i] === ',' || jsonString[i] === ':' || jsonString[i] === '{') retStr += " ";
+        
+      }
+      return retStr;
+      
+      }
+      const TypeDefGeneration = (model) => {
+
+        // Generate Type Definitions
+        for (const [key, value] of Object.entries(model.schema)) {
+          if(typeof value === 'object'){
+            typeDef += `  ${key}: ${RemoveJSONQuotes(JSON.stringify(value))}\n`;
+          }else{
+            typeDef += `  ${key}: ${value}\n`;
+          } 
+          console.log("key: ", key, "value: ", value , typeof value)
           typeInput += `  ${key}: ${value}\n`;
       }
+  }
+      TypeDefGeneration(model);
+      
+  
       typeDef += '}\n\n';
       typeDefs += typeDef;
       typeInput += '}\n\n';
@@ -41,7 +65,6 @@ const jsonToGraphQLTypes = (jsonObj) => {
   typeMutation += '}\n\n';
 
   // return `const typeDefs = gql\` \n${typeQuery} ${typeMutation} ${typeDefs}\``;
-  return `const { gql } = require('apollo-server-express');${customScalarRequires}\n\nconst typeDefs = gql\` \n${customScalars} ${typeDefs} ${typeInputs} ${typeQuery} ${typeMutation}\`\n\n module.exports = typeDefs;`;
+  return `const { gql } = require('apollo-server-express');${customScalarRequires}\n\nexport const typeDefs = gql\` \n${customScalars} ${typeDefs} ${typeInputs} ${typeQuery} ${typeMutation}\``;
 };
-
 module.exports = jsonToGraphQLTypes;

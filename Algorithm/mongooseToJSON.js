@@ -43,7 +43,7 @@ const exportModels = {
     // console.log("SchemaTree: ", schemaTree)
     for (field in schemaTree) {
       if(schemaTree[field].tree) console.log("Tree")
-      console.log("Field: ", field, schemaTree[field])
+      // console.log("Field: ", field, schemaTree[field])
       let isReference = false;
 
       let isArray = false;
@@ -54,12 +54,18 @@ const exportModels = {
         currentSchema.schema[field] = convertType(currFieldValue);
       }
     }
-    console.log("CurrentSchema Complete: ", currentSchema);
+    // console.log("CurrentSchema Complete: ", currentSchema);
      //push the generated object into the exportModels object
      exportModels.models.push(currentSchema);
   }//for loop for schemas
   //the next algorithm is expecting a JSON object.
-  return JSON.stringify(exportModels); 
+  console.log("Export--Normal")
+  console.log(exportModels)
+  console.log("Export--JOSN.stringify")
+  console.log(JSON.stringify(exportModels))
+  // console.log("Export--Stringified")
+  // console.log(exportModels)
+  return exportModels; 
 };//end convert schema fucntion
 
 
@@ -67,13 +73,13 @@ function convertType(arg, nested = false) {
   // console.log("Arg.", arg)
   let type = "";
   if(arg.tree){
-    console.log("Tree", arg.tree)
+    // console.log("Tree", arg.tree)
     const retObj = {};
     //iterate over all of the fields other than _id, id, __v
     for(const [key, value] of Object.entries(arg.tree)){
 
       if(key !== "id" && key !== "_id" && key !== "__v"  ){
-        console.log("k:v ",key, value)
+        // console.log("k:v ",key, value)
         retObj[key] = convertType(value);
       }
     }
@@ -90,7 +96,7 @@ function convertType(arg, nested = false) {
   //If arg...
     //has a type property AND (is NOT and object OR type IS an array)...
     //then recursion will be used by passing in the value of arg.type
-    if(arg.type) console.log("Type:" ,String(arg.type))
+    // if(arg.type) console.log("Type:" ,String(arg.type))
   if(arg.type && (!(typeof arg.type === "object") || Array.isArray(arg.type))) return convertType(arg.type);
   if((arg.type && arg.type.obj)){//|| (arg.type && arg.type.obj)
     // console.log( "Type obj: ", arg.type.obj)
@@ -107,6 +113,7 @@ function convertType(arg, nested = false) {
   //If arg...
     //IS an array...
     //then recursively call the 0th element , returning the evaluated result wrapped in brackets
+    // console.log("IsaRRAY?: " , (Array.isArray(arg)))
   if(Array.isArray(arg)){
     // console.log("Array!: ",arg[0])
     return [convertType(arg[0])];
