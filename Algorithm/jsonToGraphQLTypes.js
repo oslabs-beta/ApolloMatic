@@ -22,7 +22,7 @@ const jsonToGraphQLTypes = (jsonObj) => {
       typeQuery += `  ${typeName.toLowerCase()}s: [${typeName}]\n`;
 
       // Generate Mutation Type Definitions
-      typeMutation += `  add${typeName}(input: ${typeName}Input!): ${typeName}\n`;
+      typeMutation += `  create${typeName}(input: ${typeName}Input!): ${typeName}\n`;
       typeMutation += `  update${typeName}(id: ID!, input: ${typeName}Input!): ${typeName}\n`;
       typeMutation += `  delete${typeName}(id: ID!): ${typeName}\n`;
 
