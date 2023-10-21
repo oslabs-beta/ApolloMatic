@@ -30,10 +30,6 @@ if (configFilePath) {
 
 //parse the mongo schema and convert it into a JSON object
 let parsedMongoSchema = convertSchema(); 
-
-console.log('parsedMongoSchema:', parsedMongoSchema); 
-
-parsedMongoSchema = JSON.parse(parsedMongoSchema);
 // Generate GraphQL types and resolvers based on parsed schema
 const graphQLTypes = typesFunction(parsedMongoSchema);
 const graphQLResolvers = resolversFunction(parsedMongoSchema, schemas);
