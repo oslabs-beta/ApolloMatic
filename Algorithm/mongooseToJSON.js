@@ -26,35 +26,26 @@ const exportModels = {
   //iterating through schemas object
   const convertSchema = () => {
   const schemas = require('./index.js'); 
-  // console.log('schemasInMongooseToJson:', schemas); 
   //push all schema names to schemaList for reference
   for(const schemaName in schemas){
     typesObj[schemaName] = schemaName;
   }
-  // console.log("Types Obj:", typesObj)
   for (const schema in schemas) {
     //holds all converted apollo graphql schemas 
     const currentSchema = {
       name: schema,
     };
     currentSchema.schema = {};
-    // console.log(currentSchema)
     const schemaTree = schemas[schema].schema.tree;
-    // console.log("SchemaTree: ", schemaTree)
     for (field in schemaTree) {
-      if(schemaTree[field].tree) console.log("Tree")
-      console.log("Field: ", field, schemaTree[field])
       let isReference = false;
 
       let isArray = false;
       let currFieldValue = schemaTree[field];
-      // console.log("Field Value:", currFieldValue)
       if (field !== "_id" && field !== "id" && field !== "__v") {
-        // console.log(currentSchema.schema);
         currentSchema.schema[field] = convertType(currFieldValue);
       }
     }
-    console.log("CurrentSchema Complete: ", currentSchema);
      //push the generated object into the exportModels object
      exportModels.models.push(currentSchema);
   }//for loop for schemas
@@ -64,16 +55,13 @@ const exportModels = {
 
 
 function convertType(arg, nested = false) {
-  // console.log("Arg.", arg)
   let type = "";
   if(arg.tree){
-    console.log("Tree", arg.tree)
     const retObj = {};
     //iterate over all of the fields other than _id, id, __v
     for(const [key, value] of Object.entries(arg.tree)){
 
       if(key !== "id" && key !== "_id" && key !== "__v"  ){
-        console.log("k:v ",key, value)
         retObj[key] = convertType(value);
       }
     }
@@ -90,16 +78,12 @@ function convertType(arg, nested = false) {
   //If arg...
     //has a type property AND (is NOT and object OR type IS an array)...
     //then recursion will be used by passing in the value of arg.type
-    if(arg.type) console.log("Type:" ,String(arg.type))
   if(arg.type && (!(typeof arg.type === "object") || Array.isArray(arg.type))) return convertType(arg.type);
   if((arg.type && arg.type.obj)){//|| (arg.type && arg.type.obj)
-    // console.log( "Type obj: ", arg.type.obj)
     const tempObj = {};
     for(const [k, v] of Object.entries(arg.type.obj)){
-      // console.log("Converting :", v)
       tempObj[k] = convertType(v);
     }
-    // console.log("Temp Obj :" , tempObj)
     return tempObj;
 
   } 
@@ -108,7 +92,6 @@ function convertType(arg, nested = false) {
     //IS an array...
     //then recursively call the 0th element , returning the evaluated result wrapped in brackets
   if(Array.isArray(arg)){
-    // console.log("Array!: ",arg[0])
     return [convertType(arg[0])];
   } 
   //If arg...
@@ -116,13 +99,10 @@ function convertType(arg, nested = false) {
     //then iterate through
     //This accounts for 
   if((typeof arg === "object" && !arg.type)){//|| (arg.type && arg.type.obj)
-    // console.log( "Type obj: ", arg.type.obj)
     const tempObj = {};
     for(const [k, v] of Object.entries(arg)){
-      // console.log("Converting :", v)
       tempObj[k] = convertType(v);
     }
-    // console.log("Temp Obj :" , tempObj)
     return tempObj;
 
   } 
@@ -137,8 +117,6 @@ function convertType(arg, nested = false) {
   
   //turn the arg into a string.
   const stringifiedArg = String(arg);
-  // console.log("Stringified type: ", stringifiedArg)
-  // console.log("--------------------------------------------------------------------------------------------------------------")
 
   //check to see if the keys in the typesObj are present within the passed in arg.
   for (const string in typesObj) {
@@ -169,5 +147,4 @@ function convertType(arg, nested = false) {
 
   return type;
 }
-// console.log("exportModels: ",exportModels);
 module.exports = { convertSchema, convertType };

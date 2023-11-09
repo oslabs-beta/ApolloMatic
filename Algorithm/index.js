@@ -4,9 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
 const userRootDir = process.cwd();
-// console.log("USER ROOT DIRECTORY",userRootDir)
 const schemas = require(path.join(userRootDir,'apollo-config.js'));
-// console.log('schema', schemas);
 const exportModels = {
   "models": [
 ]}
@@ -18,11 +16,9 @@ const { convertSchema, convertType } = require('./mongooseToJSON')
 //
 let configFilePath = findSchemas(); 
 
-// console.log("configFilePath: ", configFilePath);
 
 if (configFilePath) {
   const schemas = require(configFilePath);
-  // console.log('schemas:', schemas);
   module.exports = schemas; 
 } else {
   console.error('Configuration file not found.');
@@ -31,7 +27,6 @@ if (configFilePath) {
 //parse the mongo schema and convert it into a JSON object
 let parsedMongoSchema = convertSchema(); 
 
-console.log('parsedMongoSchema:', parsedMongoSchema); 
 
 parsedMongoSchema = JSON.parse(parsedMongoSchema);
 // Generate GraphQL types and resolvers based on parsed schema
