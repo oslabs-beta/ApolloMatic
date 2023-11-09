@@ -11,7 +11,6 @@ const jsonToGraphQLTypes = (jsonObj) => {
   let typeDefs = '';
   let typeInputs = '';
   
-  // console.log("json" , JSON.stringify(jsonObj))
   jsonObj.models.forEach((model) => {
       const typeName = model.name;
       let typeDef = `type ${typeName} {\n  id: ID!\n`;
@@ -47,7 +46,6 @@ const jsonToGraphQLTypes = (jsonObj) => {
           }else{
             typeDef += `  ${key}: ${value}\n`;
           } 
-          console.log("key: ", key, "value: ", value , typeof value)
           typeInput += `  ${key}: ${value}\n`;
       }
   }
