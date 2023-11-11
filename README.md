@@ -7,7 +7,7 @@
 </p>
 
 # About Us
-ApolloMatic is an open-source developer tool that automates Mongo to GraphQL integration.
+ApolloMatic is an open-source developer tool that automates Mongoose to GraphQL integration.
 
 ### Tech Stack
 	
@@ -16,3 +16,15 @@ ApolloMatic is an open-source developer tool that automates Mongo to GraphQL int
     <img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"/>
     <img src = "https://img.shields.io/badge/json-5E5C5C?style=for-the-badge&logo=json&logoColor=white"/>
   </div>
+
+### Quick Links
+
+<div style="display:flex;">
+Explore our <a href="http://www.apollomatic.com/"> website </a> &nbsp;&nbsp;&nbsp;
+Check out our <a href="#"> Medium</a> Article &nbsp;&nbsp;&nbsp;
+Catch us on <a href="https://www.linkedin.com/company/apollomatic/">LinkedIn</a>
+</div>
+
+
+  
+
