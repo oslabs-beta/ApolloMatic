@@ -84,6 +84,10 @@ Apollomatic will take your Mongoose schemas and generate code for you to get sta
 
 This will allow for full CRUD functionality. 
 
+# Usage Notes
 
+# Roadmap
+
+# Authors
 
 
