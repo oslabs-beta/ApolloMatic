@@ -56,8 +56,19 @@ Once installed, you can use Apollomatic by running the following command in your
 
 # Configuration
 
+To configure Apollomatic for your project, create an `apollo-config.js file`. 
+
+This file contains the necessary information for Apollomatic to work. Here's how to set up your `apollo-config.js`:
+
+- [x] Navigate to your project's root directory.
+- [x] Locate the apollo-config.js file provided in the Apollomatic package. You can find it in the "templates" directory.
+- [x] Copy the config file and paste it into your project's root directory.
+- [x] Modify the copied apollo-config.js file to match your project's specific configuration needs. You can refer to our documentation for guidance on configuring Apollo.
+
+Save your changes. Now, your project is configured with Apollo using the apollo-config.js file you customized.
 
 # ApolloMatic in Action?
+
 Apollomatic will take your Mongoose schemas and generate code for you to get started in Apollo Server. If the installation is successful, two new files will appear in your project directory: an index.js file under the "resolvers" folder and a schema.js file under the "src" folder .
 
 #### The schema.js file will be populated with definitions for the following:
