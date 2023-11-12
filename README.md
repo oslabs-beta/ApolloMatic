@@ -23,7 +23,7 @@ ApolloMatic is an open-source developer tool that automates Mongoose to GraphQL 
 
 <div style="display:flex;">
 💻 Browse our <a href="http://www.apollomatic.com/">website</a> &nbsp;&nbsp;&nbsp;
-<img src="https://miro.medium.com/v2/resize:fit:1400/1*psYl0y9DUzZWtHzFJLIvTw.png" width="20" height="20"/> Check out our <a href="#">Medium</a> Article &nbsp;&nbsp;&nbsp;
+<img src="https://miro.medium.com/v2/resize:fit:1400/1*psYl0y9DUzZWtHzFJLIvTw.png" width="20" height="20"/> Check out our <a href="https://medium.com/@kahalia.stanberry/apollomatic-36f1036d7fd7">Medium</a> Article &nbsp;&nbsp;&nbsp;
 <img src="https://cdn-icons-png.flaticon.com/256/174/174857.png" width="20" height="20"/>  Catch us on <a href="https://www.linkedin.com/company/apollomatic/">LinkedIn</a> &nbsp;&nbsp;&nbsp;
 <img src="https://github.com/get-icon/geticon/blob/master/icons/npm.svg" width="20" height="20"/> Visit our <a href="https://www.npmjs.com/package/apollomatic">npm</a> library
 </div>
@@ -84,6 +84,20 @@ Apollomatic will take your Mongoose schemas and generate code for you to get sta
 
 This will allow for full CRUD functionality. 
 
+# Testing 
+You can test your generated resolvers in the following ways:
+
+### Apollo Studio: 
+If you've set up an endpoint for your project, you can test your resolvers within Apollo Studio's Explorer interface. Note that data must be present in the connected database for the queries to return results.
+
+### Postman:
+Resolvers can also be tested using Postman. Ensure that the GraphQL option is selected for the 'Body' section, and the query and variables components should be configured.
+
+# Need Help?
+
+If you need assistance or have questions about Apollomatic, you can reach out to us at hello.apollomatic@gmail.com. Additionally, found a bug or have an idea? Please open an issue or start a discussion. We value your feedback and contributions to make Apollomatic even more powerful and user-friendly.
+
+Getting Help
 # Usage Notes
 
 # Roadmap
