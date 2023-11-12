@@ -29,7 +29,11 @@ ApolloMatic is an open-source developer tool that automates Mongoose to GraphQL 
 </div>
 
 # Features
-Apollomatic will take your Mongoose schemas and generate code for you to get started in Apollo Server. You will have two generated files when the npm package has been executed. These files will contain your GraphQL schema and a resolvers object.
+Automatic Schema Generation: Apollomatic automatically generates GraphQL schemas based on your existing Mongo schemas, including types for queries, mutations, and the Mongo objects.
+
+Efficient Resolvers: The package creates resolvers that correspond to the types within the GraphQL schema, saving you the effort of writing them from scratch. These resolvers are functionally integrated with your database, linked to your Mongo models.
+
+Time-Saving Solution: Whether you are new to GraphQL or an experienced developer, Apollomatic can significantly reduce the time and effort required to set up your GraphQL API.
 
 ### Tech Stack Needed in Your Project:
 <div style="display: flex;">
@@ -39,20 +43,36 @@ Apollomatic will take your Mongoose schemas and generate code for you to get sta
 <img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"/>
 </div>
 
-#### The schema will be populated with definitions for the following:
+# Installation
+Before you can use Apollomatic, ensure you have Node.js and NPM installed on your system. To install Apollomatic, follow these steps:
+
+Run the following command in your project's root directory:
+
+`npm install -g apollomatic`
+
+Once installed, you can use Apollomatic by running the following command in your terminal:
+
+`npx apollomatic`
+
+# Configuration
+
+
+# ApolloMatic in Action?
+Apollomatic will take your Mongoose schemas and generate code for you to get started in Apollo Server. If the installation is successful, two new files will appear in your project directory: an index.js file under the "resolvers" folder and a schema.js file under the "src" folder .
+
+#### The schema.js file will be populated with definitions for the following:
 - Custom scalar Types
 - Object Types
 - Input Types
 - Query Types
 - Mutation Types
 
-#### The resolvers object will be populated with:
+#### The index.js file will be populated with:
 - Query Resolvers
 - Mutations Resolvers
 
 This will allow for full CRUD functionality. 
 
-# Installation
-To install ApolloMatic's Library into
+
 
 
