@@ -90,4 +90,42 @@ This will allow for full CRUD functionality.
 
 # Authors
 
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://avatars.githubusercontent.com/u/69995214?v=4" width="140px;" alt=""/>
+      <br />
+      <sub><b>Katrina Villanueva</b></sub>
+      <br />
+      <a href="https://www.linkedin.com/search/results/all/?fetchDeterministicClustersOnly=false&heroEntityKey=urn%3Ali%3Afsd_profile%3AACoAAA4wGg4B94KTig7u7BXG-d_hbiDT6_INpB8&keywords=katrina%20villanueva&origin=RICH_QUERY_SUGGESTION&position=0&searchId=61fd3f0e-8949-4718-a772-d24f2617e726&sid=Zr~"><img src="https://cdn-icons-png.flaticon.com/256/174/174857.png" width="20" height="20"/></a>
+      <a href="https://github.com/klgvillanueva">🐙</a>
+    </td>
+    <td align="center">
+      <img src="https://avatars.githubusercontent.com/u/22311749?v=4" width="140px;" alt=""/>
+      <br />
+      <sub><b>Phillip Troutman</b></sub>
+      <br />
+      <a href="https://www.linkedin.com/in/phillip-troutman/"><img src="https://cdn-icons-png.flaticon.com/256/174/174857.png" width="20" height="20"/></a>
+      <a href="https://github.com/troutman21">🐙</a>
+    </td>
+     <td align="center">
+      <img src="https://avatars.githubusercontent.com/u/26197909?v=4" width="140px;" alt=""/>
+      <br />
+      <sub><b>Natalie Klein</b></sub>
+      <br />
+      <a href="https://www.linkedin.com/search/results/all/?fetchDeterministicClustersOnly=false&heroEntityKey=urn%3Ali%3Afsd_profile%3AACoAABxBUMYBYh3jl6z8XMVs4D1VjdqU-oastdc&keywords=natalie%20klein&origin=RICH_QUERY_SUGGESTION&position=0&searchId=7ca29d7e-56b5-4dce-a2a1-f9d9e5594052&sid=XY8"><img src="https://cdn-icons-png.flaticon.com/256/174/174857.png" width="20" height="20"/></a>
+      <a href="https://github.com/natalie-klein">🐙</a>
+    </td>
+     <td align="center">
+      <img src="https://avatars.githubusercontent.com/u/55901780?v=4" width="140px;" alt=""/>
+      <br />
+      <sub><b>Matt Severyn</b></sub>
+      <br />
+      <a href="https://www.linkedin.com/search/results/all/?fetchDeterministicClustersOnly=false&heroEntityKey=urn%3Ali%3Afsd_profile%3AACoAAAK5fh4B9u1D97RY2_jZzFWxkSD2_vI95FU&keywords=matt%20severyn&origin=RICH_QUERY_SUGGESTION&position=0&searchId=12621ad1-f56c-4697-bc46-3226963731e5&sid=_gz"><img src="https://cdn-icons-png.flaticon.com/256/174/174857.png" width="20" height="20"/></a>
+      <a href="https://github.com/mtseveryn">🐙</a>
+    </td>
+  </tr>
+</table>
+
+
 
