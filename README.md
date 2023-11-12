@@ -93,7 +93,7 @@ This will allow for full CRUD functionality.
 <table>
   <tr>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/69995214?v=4" width="140px;" alt=""/>
+      <img src="https://github.com/juliabreeden/ApolloMatic-Web/blob/dev/src/imgs/team/kahalia.png?raw=true" width="140px;" alt=""/>
       <br />
       <sub><b>Kahalia Stanberry</b></sub>
       <br />
@@ -101,7 +101,7 @@ This will allow for full CRUD functionality.
       <a href="https://github.com/KahaliaS"><img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="20" height="20"/></a>
     </td>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/22311749?v=4" width="140px;" alt=""/>
+      <img src="https://github.com/juliabreeden/ApolloMatic-Web/blob/dev/src/imgs/team/john.jpeg?raw=true" width="140px;" alt=""/>
       <br />
       <sub><b>John Bilunas</b></sub>
       <br />
@@ -109,7 +109,7 @@ This will allow for full CRUD functionality.
       <a href="https://github.com/john-bilunas"><img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="20" height="20"/></a>
     </td>
      <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/26197909?v=4" width="140px;" alt=""/>
+      <img src="https://github.com/juliabreeden/ApolloMatic-Web/blob/dev/src/imgs/team/julia.jpeg?raw=true" width="140px;" alt=""/>
       <br />
       <sub><b>Juilia Breeden</b></sub>
       <br />
@@ -117,7 +117,7 @@ This will allow for full CRUD functionality.
       <a href="https://github.com/juliabreeden"><img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="20" height="20"/></a>
     </td>
      <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/55901780?v=4" width="140px;" alt=""/>
+      <img src="https://github.com/juliabreeden/ApolloMatic-Web/blob/dev/src/imgs/team/davis.jpeg?raw=true" width="140px;" alt=""/>
       <br />
       <sub><b>Davis Kim</b></sub>
       <br />
