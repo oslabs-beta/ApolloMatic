@@ -23,9 +23,9 @@ ApolloMatic is an open-source developer tool that automates Mongoose to GraphQL 
 
 <div style="display:flex;">
 💻 Browse our <a href="http://www.apollomatic.com/">website</a> &nbsp;&nbsp;&nbsp;
-<img src="https://miro.medium.com/v2/resize:fit:1400/1*psYl0y9DUzZWtHzFJLIvTw.png" width="20" height="20"/> Check out our <a href="#"> Medium</a> Article &nbsp;&nbsp;&nbsp;
+<img src="https://miro.medium.com/v2/resize:fit:1400/1*psYl0y9DUzZWtHzFJLIvTw.png" width="20" height="20"/> Check out our <a href="#">Medium</a> Article &nbsp;&nbsp;&nbsp;
 <img src="https://cdn-icons-png.flaticon.com/256/174/174857.png" width="20" height="20"/>  Catch us on <a href="https://www.linkedin.com/company/apollomatic/">LinkedIn</a> &nbsp;&nbsp;&nbsp;
-<img src="https://github.com/get-icon/geticon/blob/master/icons/npm.svg" width="20" height="20"/> Visit our <a href="https://www.npmjs.com/package/apollomatic">npm </a> library
+<img src="https://github.com/get-icon/geticon/blob/master/icons/npm.svg" width="20" height="20"/> Visit our <a href="https://www.npmjs.com/package/apollomatic">npm</a> library
 </div>
 
 # Features
