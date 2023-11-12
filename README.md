@@ -67,7 +67,7 @@ This file contains the necessary information for Apollomatic to work. Here's how
 
 Save your changes. Now, your project is configured with Apollo using the apollo-config.js file you customized.
 
-# ApolloMatic in Action?
+# ApolloMatic in Action
 
 Apollomatic will take your Mongoose schemas and generate code for you to get started in Apollo Server. If the installation is successful, two new files will appear in your project directory: an index.js file under the "resolvers" folder and a schema.js file under the "src" folder .
 
@@ -87,6 +87,19 @@ This will allow for full CRUD functionality.
 # Usage Notes
 
 # Roadmap
+
+Features      | Next Steps
+------------- | -------------
+ Frontend     | - Building out the playground/explorer page 
+ &nbsp;       | - Accessbility + screen responsiveness 
+ &nbsp;       | - Continuing to maintain docs as project evolves
+ Subscriptions| - In addition to queries and mutations, GraphQL supports a third operation type:  subscriptions . 
+ &nbsp;       | - Like queries, subscriptions enable you to fetch data. Unlike queries, subscriptions are long-lasting operations that can change their result over time. 
+ &nbsp;       | - They can maintain an active connection to your GraphQL server (most commonly via WebSocket), enabling the server to push updates to the subscription's result.
+ Codebase     | - In addition to queries and mutations, GraphQL supports a third operation type:  subscriptions . 
+ &nbsp;       | - Converting code to TypeScript 
+ &nbsp;       | - Implementing testing (unit + integration) 
+
 
 # Authors
 
